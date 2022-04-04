@@ -112,9 +112,9 @@ This library can communicate with [RadioLib](https://github.com/jgromes/RadioLib
 
 # Using PlatformIO
 ```
-$ git clone https://github.com/nopnop2002/Arduino-Ra01S
+$ git clone https://github.com/nopnop2002/Arduino-LoRa-Ra01S
 
-$ cd Arduino-Ra01S/example/Ra01S-TX/
+$ cd Arduino-LoRa-Ra01S/example/Ra01S-TX/
 
 $ pio init -b your_board
 
