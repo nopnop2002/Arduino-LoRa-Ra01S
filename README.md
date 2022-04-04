@@ -55,6 +55,9 @@ But with this library, Ra-01S / Ra-01SH doesn't work.
 RA-0x(SMD16) has the same foot pattern as ESP12.   
 Therefore, a pitch conversion PCB for ESP12 can be used.   
 
+![ra01s-3](https://user-images.githubusercontent.com/6020549/161641874-32a79d5f-dbae-42f1-a8cd-d0787c238a06.JPG)
+![ra01s-2](https://user-images.githubusercontent.com/6020549/161641421-e720a7da-4889-4bd4-b2c6-1f3a28518cf8.JPG)
+
 
 # Wireing
 |Ra-01S/SH||UNO|MEG|ESP8266|
@@ -96,12 +99,6 @@ This library can communicate with [RadioLib](https://github.com/jgromes/RadioLib
 - LoRaWAN is not supported in this library.   
 - Interrupts is not supported in this library.   
 
-# Module shape
-Ra01 series has the same shape as the ESP12E.   
-Therefore, you can use the ESP12E pitch conversion board.
-
-![ra01s-3](https://user-images.githubusercontent.com/6020549/161641874-32a79d5f-dbae-42f1-a8cd-d0787c238a06.JPG)
-![ra01s-2](https://user-images.githubusercontent.com/6020549/161641421-e720a7da-4889-4bd4-b2c6-1f3a28518cf8.JPG)
 
 # SX1262 and SX1278, SX1276 Comparison
 [This](https://www.ebyte.com/en/new-view-info.aspx?id=303) will be helpful.   
