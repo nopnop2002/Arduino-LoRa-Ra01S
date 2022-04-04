@@ -8,7 +8,7 @@ Ai-Thinker offers several LoRa modules.
 You can get these on AliExpress and eBay.   
 
 |Model|Type|Interface/Core|Chip|Frequency|Foot-Pattern|IPEX-Antena|LoRa-WAN|
-|:-:|:-:|:-:|:-:|:-:|:-:|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |Ra-01|Tranceiver|SPI|SX1278|410-525Mhz|SMD16|No|No|
 |Ra-02|Tranceiver|SPI|SX1278|410-525Mhz|SMD16|Yes|No|
 |Ra-01H|Tranceiver|SPI|SX1276|803-930Mhz|SMD16|No|No|
