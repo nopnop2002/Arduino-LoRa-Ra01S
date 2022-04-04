@@ -116,7 +116,3 @@ $ cp Ra01S-TX.ino src/
 $ pio run -t upload && pio device monitor -b 115200
 ```
 
-
-# Reference
-https://github.com/nopnop2002/esp-idf-sx127x
-
