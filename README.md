@@ -25,21 +25,21 @@ You can get these on AliExpress and eBay.
 # Option with SX1262/1268
 LoRa modules with SX1262/1268 have several options.   
 
-- Using TCXO(Temperature-Compensated Crystal Oscillator)
+- Using TCXO(Temperature-Compensated Crystal Oscillator)   
 SX1262/1268 can use the TCXO.   
 If the TCXO is used, the XTB pin is not connected.   
 However, the 6th pin (DIO3) of the SX1262/1268 can be used to power the TCXO.   
 Explanation for TXCO and antenna control is [here](https://github.com/beegee-tokyo/SX126x-Arduino).   
 Ra-01S / Ra-01SH does not use TCXO.   
 
-- Power supply modes
+- Power supply modes   
 SX1262/1268 has two power supply modes.   
 One is that only LDO used in all modes.   
 Another is that DC_DC+LDO used for STBY_XOSC,FS, RX and TX modes.   
 Explanation for LDO and DCDC selection is [here](https://github.com/beegee-tokyo/SX126x-Arduino).   
 Ra-01S / Ra-01SH use only LDO in all modes.
 
-- Switching RF-Swich
+- Switching RF-Swich   
 In general, use DIO2 to switch the RF-Switch.
 However, some tranceiver use an external gpio to switch the RF-Switch.   
 Ra-01S / Ra-01SH use DIO2 to switch the RF-Switch.   
