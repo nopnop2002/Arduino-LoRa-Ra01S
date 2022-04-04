@@ -39,7 +39,7 @@ Another is that DC_DC+LDO used for STBY_XOSC,FS, RX and TX modes.
 Explanation for LDO and DCDC selection is [here](https://github.com/beegee-tokyo/SX126x-Arduino).   
 Ra-01S / Ra-01SH use only LDO in all modes.
 
-- Switching RF-Swich   
+- RF-Switching   
 In general, use DIO2 to switch the RF-Switch.   
 However, some tranceiver use an external gpio to switch the RF-Switch.   
 Ra-01S / Ra-01SH use DIO2 to switch the RF-Switch.   
