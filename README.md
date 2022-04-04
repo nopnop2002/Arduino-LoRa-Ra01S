@@ -40,7 +40,7 @@ Explanation for LDO and DCDC selection is [here](https://github.com/beegee-tokyo
 Ra-01S / Ra-01SH use only LDO in all modes.
 
 - Switching RF-Swich   
-In general, use DIO2 to switch the RF-Switch.
+In general, use DIO2 to switch the RF-Switch.   
 However, some tranceiver use an external gpio to switch the RF-Switch.   
 Ra-01S / Ra-01SH use DIO2 to switch the RF-Switch.   
 
