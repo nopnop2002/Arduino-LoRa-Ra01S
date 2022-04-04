@@ -96,7 +96,6 @@ This library can communicate with [RadioLib](https://github.com/jgromes/RadioLib
 
 # Limitation
 - The SX126x chip implements FSK, but FSK is not supported in this library.   
-- LoRaWAN is not supported in this library.   
 - Interrupts is not supported in this library.   
 
 
