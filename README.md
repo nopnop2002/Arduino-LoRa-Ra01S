@@ -51,6 +51,13 @@ When using other than Ra-01S / Ra-01SH, you need to set them appropriately.
 I created this library based on [this](https://github.com/tinytronix/SX126x).   
 But with this library, Ra-01S / Ra-01SH doesn't work.   
 
+# Datasheet   
+- RA-01S   
+https://docs.ai-thinker.com/_media/lora/docs/ra-01s_specification.pdf
+
+- RA-01SH   
+https://docs.ai-thinker.com/_media/lora/docs/ra-01sh_specification.pdf
+
 # Foot pattern
 RA-0x(SMD16) has the same foot pattern as ESP12.   
 Therefore, a pitch conversion PCB for ESP12 can be used.   
