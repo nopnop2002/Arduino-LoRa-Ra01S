@@ -120,6 +120,10 @@ $ pio init -b d1_mini
 
 $ cp Ra01S-RX.ino src/
 
+$ vi src/Ra01S-RX.ino
+Disable AtMega
+Enable ESP8266
+
 $ vi platform.ini
 [env:d1_mini]
 platform = espressif8266
