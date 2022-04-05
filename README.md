@@ -118,14 +118,14 @@ $ cd Arduino-LoRa-Ra01S/example/Ra01S-RX/
 
 $ pio init -b d1_mini
 
+$ cp Ra01S-RX.ino src/
+
 $ vi platform.ini
 [env:d1_mini]
 platform = espressif8266
 board = d1_mini
 framework = arduino
 lib_deps = https://github.com/nopnop2002/Arduino-LoRa-Ra01S --> Add this line
-
-$ cp Ra01S-RX.ino src/
 
 $ pio run -t upload && pio device monitor -b 115200
 ```
