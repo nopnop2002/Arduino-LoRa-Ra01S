@@ -123,7 +123,7 @@ $ vi platform.ini
 platform = espressif8266
 board = d1_mini
 framework = arduino
-lib_deps = https://github.com/nopnop2002/Arduino-LoRa-Ra01S
+lib_deps = https://github.com/nopnop2002/Arduino-LoRa-Ra01S --> Add this line
 
 $ cp Ra01S-RX.ino src/
 
