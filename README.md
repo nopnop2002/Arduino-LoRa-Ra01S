@@ -71,14 +71,17 @@ Therefore, a pitch conversion PCB for ESP12 can be used.
 |:-:|:-:|:-:|:-:|:-:|
 |VCC|--|3.3V|3.3V|3.3V|
 |GND|--|GND|GND|GND|
-|SCK|--|D13(*1)|D52(*)|IO14|
+|SCK|--|D13(*)|D52(*)|IO14|
 |MISO|--|D12|D50|IO12|
-|MOSI|--|D11(*1)|D51(*)|IO13|
-|NSS|--|D5(*1)|D5(*)|IO2|
-|RST|--|D6(*1)|D6(*)|IO0|
-|BUSY|--|D7(*1)|D7(*)|IO16|
+|MOSI|--|D11(*)|D51(*)|IO13|
+|NSS|--|D5(*)|D5(*)|IO2|
+|RST|--|D6(*)|D6(*)|IO0|
+|BUSY|--|D7(*)|D7(*)|IO16|
 
-(*1)Level shift from 5V to 3.3V is required.   
+(*)   
+SX126x is not 5V tolerant.   
+You need level shift from 5V to 3.3V.   
+I used [this](https://www.ti.com/lit/ds/symlink/txs0108e.pdf?ts=1647593549503) for a level shift.   
 
 
 # Installing
