@@ -121,7 +121,7 @@ This library can communicate with [RadioLib](https://github.com/jgromes/RadioLib
 [This](https://www.ebyte.com/en/new-view-info.aspx?id=303) will be helpful.   
 
 
-# Using PlatformIO
+# Build ESP8266 with PlatformIO
 ```
 $ git clone https://github.com/nopnop2002/Arduino-LoRa-Ra01S
 
