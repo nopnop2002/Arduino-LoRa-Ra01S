@@ -79,9 +79,9 @@ Therefore, a pitch conversion PCB for ESP12 can be used.
 |BUSY|--|D7(*2)|D7(*2)|IO16|
 
 (*1)   
-UNO's 3.3V output can only supply 50mA.
-In addition, the output current capacity of UNO-compatible devices is smaller than that of official products.
-__So this module may not work normally when supplied from the on-board 3v3.__
+UNO's 3.3V output can only supply 50mA.   
+In addition, the output current capacity of UNO-compatible devices is smaller than that of official products.   
+__So this module may not work normally when supplied from the on-board 3v3.__   
 
 (*2)   
 SX126x is not 5V tolerant.   
