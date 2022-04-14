@@ -70,7 +70,7 @@ Therefore, a pitch conversion PCB for ESP12 can be used.
 
 
 # Wireing
-|Ra-01S/SH||UNO|MEG|ESP8266|
+|Ra-01S/SH||UNO|MEGA|ESP8266|
 |:-:|:-:|:-:|:-:|:-:|
 |VCC|--|3.3V(*1)|3.3V|3.3V|
 |GND|--|GND|GND|GND|
