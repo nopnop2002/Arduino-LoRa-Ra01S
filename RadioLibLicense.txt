@@ -1,7 +1,5 @@
-Great portions of the hardware driver (all hardware specific defines, most of sx126x.h and most of sx126x.cpp) are
-copied from https://github.com/jgromes/RadioLib. which is a great project and helped me a lot to get
-startet with LoRa SX126x Semtech chips!
-
+Most of the hardware drivers (all hardware specific definitions, most sx126x.h and most sx126x.cpp) have been copied from https://github.com/jgromes/RadioLib.
+Which is a great project and helped me a lot to get startet with LoRa SX126x Semtech chips!
 As most of this hard work was not mine I want to add the Radiolib License here: 
 
 MIT License
