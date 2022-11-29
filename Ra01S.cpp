@@ -333,6 +333,14 @@ uint8_t SX126x::GetStatus(void)
 }
 
 
+uint32_t SX126x::GetRandomNumber(void)
+{
+  uint8_t random[4];
+  ReadRegister(SX126X_REG_RANDOM_NUMBER_0, random, 4);
+  return *((uint32_t *)random);
+}
+
+
 void SX126x::SetDio3AsTcxoCtrl(float voltage, uint32_t delay)
 {
   uint8_t buf[4];
