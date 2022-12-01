@@ -392,6 +392,7 @@ class SX126x {
     void     SetDio3AsTcxoCtrl(float voltage, uint32_t delay);
     void     SetDio2AsRfSwitchCtrl(uint8_t enable);
     void     Reset(void);
+    void     SetSleep(uint8_t mode);
     void     SetStandby(uint8_t mode);
     void     SetRfFrequency(uint32_t frequency);
     void     Calibrate(uint8_t calibParam);

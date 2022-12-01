@@ -318,6 +318,13 @@ void SX126x::Wakeup(void)
 }
 
 
+void SX126x::SetSleep(uint8_t mode)
+{
+  uint8_t data = mode;
+  WriteCommand(SX126X_CMD_SET_SLEEP, &data, 1); // 0x84
+}
+
+
 void SX126x::SetStandby(uint8_t mode)
 {
   uint8_t data = mode;
