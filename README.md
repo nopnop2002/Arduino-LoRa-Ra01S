@@ -112,6 +112,8 @@ Download this repo as zip. Then in the Arduino IDE go to Sketch->Add library->ad
 
 # Software compatibility
 This library can communicate with [RadioLib](https://github.com/jgromes/RadioLib).   
+RadioLib require DIO1 connected in order to works.   
+
 ```
   // Set frequency: 866Mhz
   // Set bandwidth(BW): 125Khz
