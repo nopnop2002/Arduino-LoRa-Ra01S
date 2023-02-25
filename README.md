@@ -157,8 +157,10 @@ With this change it work.
 No additional wiring required.   
 The pitch conversion base is [here](https://github.com/nopnop2002/esp-idf-sx126x/tree/main/ebyte-smd-pcb).   
 ```
-  //int16_t ret = lora.begin(RF_FREQUENCY,              //frequency in Hz
-  //                         TX_OUTPUT_POWER);          //tx power in dBm
+/*
+  int16_t ret = lora.begin(RF_FREQUENCY,              //frequency in Hz
+                           TX_OUTPUT_POWER);          //tx power in dBm
+*/
 
   int16_t ret = lora.begin(RF_FREQUENCY,              //frequency in Hz
                            TX_OUTPUT_POWER,           //tx power in dBm
