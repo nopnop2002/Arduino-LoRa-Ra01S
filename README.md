@@ -49,10 +49,10 @@ DIO2 = 0, CTRL = 1, RFC to R21  Rx Mode.
 
 You need to look at the schematic to set these options properly, but it's very esoteric.   
 The default settings for this library are for Ra-01S / Ra-01SH.    
-When using other than Ra-01S / Ra-01SH, you need to set them appropriately.   
+__When using other than Ra-01S / Ra-01SH, you need to set them appropriately.__   
 
 I created this library based on [this](https://github.com/tinytronix/SX126x).   
-But with this library, Ra-01S / Ra-01SH doesn't work.   
+With this library, Ra-01S / Ra-01SH doesn't work.   
 
 # About Ra-01SC   
 Ra-01SC uses LLCC68.   
