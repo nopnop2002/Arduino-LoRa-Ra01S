@@ -423,6 +423,7 @@ class SX126x {
     void     WriteRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool waitForBusy = true);
     void     ReadRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool waitForBusy = true);
     void     WriteCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy = true);
+    uint8_t  WriteCommand2(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy = true);
     void     ReadCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy = true);
 };
 

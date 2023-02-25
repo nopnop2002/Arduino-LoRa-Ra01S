@@ -831,8 +831,21 @@ void SX126x::ReadRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool wa
   }
 }
 
-
+// WriteCommand with retry for EBYTE
 void SX126x::WriteCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy) {
+  uint8_t status;
+  for (int retry=1; retry<10; retry++) {
+    status = WriteCommand2(cmd, data, numBytes,  waitForBusy);
+    if (status == 0) break;
+  }
+  if (status != 0) {
+    Serial.print("SPI Transaction error:");
+    Serial.println(status);
+    while(1) {delay(1);}
+  }
+}
+
+uint8_t SX126x::WriteCommand2(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy) {
   // ensure BUSY is low (state meachine ready)
   WaitForIdle();
 
@@ -887,8 +900,9 @@ void SX126x::WriteCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool wai
   if (status != 0) {
     Serial.print("SPI Transaction error:");
     Serial.println(status);
-    while(1) {delay(1);}
+    //while(1) {delay(1);}
   }
+  return status;
 }
 
 
