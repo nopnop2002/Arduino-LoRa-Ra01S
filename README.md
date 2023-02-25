@@ -54,9 +54,9 @@ When using other than Ra-01S / Ra-01SH, you need to set them appropriately.
 I created this library based on [this](https://github.com/tinytronix/SX126x).   
 But with this library, Ra-01S / Ra-01SH doesn't work.   
 
-# About LLCC68   
-LLCC68 is used for Ra-01SC.   
-LLCC68 is compatible with SX126X.   
+# About Ra-01SC   
+Ra-01SC uses LLCC68.   
+Ra-01SC is compatible with Ra-01S.   
 However, there are the following restrictions:   
 - BW is either 125KHz, 250KHz or 500Khz.   
 - When BW is 125KHz, SF is in the range of 5-9.   
@@ -132,9 +132,45 @@ RadioLib require DIO1 connected in order to works.
 - The SX126x chip implements FSK, but FSK is not supported in this library.   
 - Interrupts is not supported in this library.   
 
+# Using EBYTE Module
+
+EBYTE offers several LoRa modules.   
+You can get these on AliExpress and eBay.   
+
+|Model|Interface|Chip|Frequency|Power|Foot-Patten|IPEX-Antena|LoRa-WAN|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|E22-400M22S|SPI|SX1268|433/470Mhz|160mW|Standard|Yes|No|
+|E22-400M30S|SPI|SX1268|433/470Mhz|1000mW|Standard|Yes|No|
+|E22-400MM22S|SPI|SX1268|433/470Mhz|160mW|Small|No|No|
+|E22-900M22S|SPI|SX1262|868/915Mhz|160mW|Standard|Yes|No|
+|E22-900M30S|SPI|SX1262|868/915Mhz|1000mW|Standard|Yes|No|
+|E22-900MM22S|SPI|SX1262|868/915Mhz|160mW|Small|No|No|
+|E220-400M22S|SPI|LLCC68|433/470Mhz|160mW|Standard|Yes|No|
+|E220-400M30S|SPI|LLCC68|433/470Mhz|1000mW|Standard|Yes|No|
+|E220-900M22S|SPI|LLCC68|868/915Mhz|160mW|Standard|Yes|No|
+|E220-900M30S|SPI|LLCC68|868/915Mhz|1000mW|Standard|Yes|No|
+
+![EBYTE-1](https://user-images.githubusercontent.com/6020549/221339540-4330b34d-1aea-4911-87c5-607a5a3d4b57.JPG)
+![EBYTE-2](https://user-images.githubusercontent.com/6020549/221339539-40fc9e6f-9224-4b0c-b222-efa5d9850560.JPG)
+
+With this change it work.   
+No additional wiring required.   
+The pitch conversion base is [here](https://github.com/nopnop2002/esp-idf-sx126x/tree/main/ebyte-smd-pcb).   
+```
+  //int16_t ret = lora.begin(RF_FREQUENCY,              //frequency in Hz
+  //                         TX_OUTPUT_POWER);          //tx power in dBm
+
+  int16_t ret = lora.begin(RF_FREQUENCY,              //frequency in Hz
+                           TX_OUTPUT_POWER,           //tx power in dBm
+                           3.3,                       //use TCXO
+                           true);                     //use TCXO
+```
+
+
 
 # SX1262 and SX1278, SX1276 Comparison
 [This](https://www.ebyte.com/en/new-view-info.aspx?id=303) will be helpful.   
+
 
 
 # Build ESP8266 with PlatformIO
