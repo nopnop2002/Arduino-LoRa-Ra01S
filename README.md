@@ -82,6 +82,8 @@ Therefore, a pitch conversion PCB for ESP12 can be used.
 ![ra01s-3](https://user-images.githubusercontent.com/6020549/161641874-32a79d5f-dbae-42f1-a8cd-d0787c238a06.JPG)
 ![ra01s-2](https://user-images.githubusercontent.com/6020549/161641421-e720a7da-4889-4bd4-b2c6-1f3a28518cf8.JPG)
 
+# Installation
+Download this repo as zip. Then in the Arduino IDE go to Sketch->Add library->add .zip library.   
 
 # Wireing
 |Ra-01S/SH||UNO|MEGA|ESP8266|
@@ -104,33 +106,6 @@ __So this module may not work normally when supplied from the on-board 3v3.__
 SX126x is not 5V tolerant.   
 You need level shift from 5V to 3.3V.   
 I used [this](https://www.ti.com/lit/ds/symlink/txs0108e.pdf?ts=1647593549503) for a level shift.   
-
-
-# Installing
-Download this repo as zip. Then in the Arduino IDE go to Sketch->Add library->add .zip library.   
-
-
-# Software compatibility
-This library can communicate with [RadioLib](https://github.com/jgromes/RadioLib).   
-RadioLib require DIO1 connected in order to works.   
-
-```
-  // Set frequency: 866Mhz
-  // Set bandwidth(BW): 125Khz
-  // Set Spreading Factor(SF): 7
-  // Set Error Cording Rate(CR): 4/5
-  // Set SyncWord: 0x1424(Private Network)
-  // Set Power: 10dBm
-  // Set Preamble Length: 8
-  // Configure the radio to NOT use a TCXO controlled by DIO3
-  // Set regulator mode: DC-DC
-  int state = radio.begin(866.0, 125.0, 7, 5, RADIOLIB_SX126X_SYNC_WORD_PRIVATE, 10, 8, 0.0, false);
-```
-
-
-# Limitation
-- The SX126x chip implements FSK, but FSK is not supported in this library.   
-- Interrupts is not supported in this library.   
 
 # Using EBYTE Module
 
@@ -167,6 +142,28 @@ The pitch conversion base is [here](https://github.com/nopnop2002/esp-idf-sx126x
                            3.3,                       //use TCXO
                            true);                     //use TCXO
 ```
+
+# Software compatibility
+This library can communicate with [RadioLib](https://github.com/jgromes/RadioLib).   
+RadioLib require DIO1 connected in order to works.   
+
+```
+  // Set frequency: 866Mhz
+  // Set bandwidth(BW): 125Khz
+  // Set Spreading Factor(SF): 7
+  // Set Error Cording Rate(CR): 4/5
+  // Set SyncWord: 0x1424(Private Network)
+  // Set Power: 10dBm
+  // Set Preamble Length: 8
+  // Configure the radio to NOT use a TCXO controlled by DIO3
+  // Set regulator mode: DC-DC
+  int state = radio.begin(866.0, 125.0, 7, 5, RADIOLIB_SX126X_SYNC_WORD_PRIVATE, 10, 8, 0.0, false);
+```
+
+
+# Limitation
+- The SX126x chip implements FSK, but FSK is not supported in this library.   
+- Interrupts is not supported in this library.   
 
 
 
