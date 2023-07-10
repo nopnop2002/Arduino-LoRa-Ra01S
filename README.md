@@ -85,7 +85,7 @@ Therefore, a pitch conversion PCB for ESP12 can be used.
 # Installation
 Download this repo as zip. Then in the Arduino IDE go to Sketch->Add library->add .zip library.   
 
-# Wireing
+# Wiring
 |Ra-01S/SH||UNO|MEGA|ESP8266|
 |:-:|:-:|:-:|:-:|:-:|
 |VCC|--|3.3V(*1)|3.3V|3.3V|
