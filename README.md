@@ -96,6 +96,9 @@ Download this repo as zip. Then in the Arduino IDE go to Sketch->Add library->ad
 |NSS|--|D5(*2)|D5(*2)|IO2|
 |RST|--|D6(*2)|D6(*2)|IO0|
 |BUSY|--|D7(*2)|D7(*2)|IO16|
+|TXEN|--|N/C|N/C|N/C|
+|RXEN|--|N/C|N/C|N/C|
+
 
 (*1)   
 UNO's 3.3V output can only supply 50mA.   
@@ -129,19 +132,45 @@ You can get these on AliExpress and eBay.
 ![EBYTE-2](https://user-images.githubusercontent.com/6020549/221339539-40fc9e6f-9224-4b0c-b222-efa5d9850560.JPG)
 
 With this change it work.   
-No additional wiring required.   
-The pitch conversion base is [here](https://github.com/nopnop2002/esp-idf-sx126x/tree/main/ebyte-smd-pcb).   
+
+
 ```
 /*
-  int16_t ret = lora.begin(RF_FREQUENCY,              //frequency in Hz
-                           TX_OUTPUT_POWER);          //tx power in dBm
+SX126x  lora(5,               //Port-Pin Output: SPI select
+             6,               //Port-Pin Output: Reset 
+             7                //Port-Pin Input:  Busy
+             );
+
+int16_t ret = lora.begin(RF_FREQUENCY,              //frequency in Hz
+                         TX_OUTPUT_POWER);          //tx power in dBm
 */
 
-  int16_t ret = lora.begin(RF_FREQUENCY,              //frequency in Hz
-                           TX_OUTPUT_POWER,           //tx power in dBm
-                           3.3,                       //use TCXO
-                           true);                     //use TCXO
+SX126x  lora(5,               //Port-Pin Output: SPI select
+             6,               //Port-Pin Output: Reset 
+             7                //Port-Pin Input:  Busy
+             8                //Port-Pin Output: TXEN
+             9                //Port-Pin Output: RXEN
+             );
+
+int16_t ret = lora.begin(RF_FREQUENCY,              //frequency in Hz
+                         TX_OUTPUT_POWER,           //tx power in dBm
+                         3.3,                       //use TCXO
+                         true);                     //use TCXO
 ```
+
+
+Two additional wires are required.   
+|Ra-01S/SH||UNO|MEGA|ESP8266|
+|:-:|:-:|:-:|:-:|:-:|
+|TXEN|--|8(*3)|8(*3)|D4|
+|RXEN|--|9(*3)|9(*3)|D5|
+
+(*3)   
+SX126x is not 5V tolerant.   
+You need level shift from 5V to 3.3V.   
+
+The pitch conversion base is [here](https://github.com/nopnop2002/esp-idf-sx126x/tree/main/ebyte-smd-pcb).   
+
 
 # Software compatibility
 This library can communicate with [RadioLib](https://github.com/jgromes/RadioLib).   
