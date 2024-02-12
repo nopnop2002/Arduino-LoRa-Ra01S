@@ -160,7 +160,7 @@ int16_t ret = lora.begin(RF_FREQUENCY,              //frequency in Hz
 
 
 Two additional wires are required.   
-|Ra-01S/SH||UNO|MEGA|ESP8266|
+|EBYTE||UNO|MEGA|ESP8266|
 |:-:|:-:|:-:|:-:|:-:|
 |TXEN|--|8(*3)|8(*3)|D4|
 |RXEN|--|9(*3)|9(*3)|D5|
