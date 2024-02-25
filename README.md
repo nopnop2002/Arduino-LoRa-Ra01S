@@ -123,10 +123,6 @@ You can get these on AliExpress and eBay.
 |E22-900M22S|SPI|SX1262|868/915Mhz|160mW|Standard|Yes|No|
 |E22-900M30S|SPI|SX1262|868/915Mhz|1000mW|Standard|Yes|No|
 |E22-900MM22S|SPI|SX1262|868/915Mhz|160mW|Small|No|No|
-|E220-400M22S|SPI|LLCC68|433/470Mhz|160mW|Standard|Yes|No|
-|E220-400M30S|SPI|LLCC68|433/470Mhz|1000mW|Standard|Yes|No|
-|E220-900M22S|SPI|LLCC68|868/915Mhz|160mW|Standard|Yes|No|
-|E220-900M30S|SPI|LLCC68|868/915Mhz|1000mW|Standard|Yes|No|
 
 ![EBYTE-1](https://user-images.githubusercontent.com/6020549/221339540-4330b34d-1aea-4911-87c5-607a5a3d4b57.JPG)
 ![EBYTE-2](https://user-images.githubusercontent.com/6020549/221339539-40fc9e6f-9224-4b0c-b222-efa5d9850560.JPG)
@@ -171,6 +167,13 @@ You need level shift from 5V to 3.3V.
 
 The pitch conversion base is [here](https://github.com/nopnop2002/esp-idf-sx126x/tree/main/ebyte-smd-pcb).   
 
+SX1262 and LLCC68 are compatible, but for some reason they don't work.   
+|Model|Interface|Chip|Frequency|Power|Foot-Patten|IPEX-Antena|LoRa-WAN|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|E220-400M22S|SPI|LLCC68|433/470Mhz|160mW|Standard|Yes|No|
+|E220-400M30S|SPI|LLCC68|433/470Mhz|1000mW|Standard|Yes|No|
+|E220-900M22S|SPI|LLCC68|868/915Mhz|160mW|Standard|Yes|No|
+|E220-900M30S|SPI|LLCC68|868/915Mhz|1000mW|Standard|Yes|No|
 
 # Software compatibility
 This library can communicate with [RadioLib](https://github.com/jgromes/RadioLib).   
