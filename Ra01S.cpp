@@ -16,7 +16,7 @@ SemaphoreHandle_t Ra01S_Semaphore_SPI;
 #endif
 #endif
 
-SX126x::SX126x(int spiSelect, int reset, int busy, int txen, int rxen, bool eager = true)
+SX126x::SX126x(int spiSelect, int reset, int busy, int txen, int rxen, bool eager)
 {
   SX126x_SPI_SELECT = spiSelect;
   SX126x_RESET      = reset;
