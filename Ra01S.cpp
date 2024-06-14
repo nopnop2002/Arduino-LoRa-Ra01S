@@ -129,8 +129,8 @@ void SX126x::FixInvertedIQ(uint8_t iqConfig)
   // see SX1262/SX1268 datasheet, chapter 15 Known Limitations, section 15.4 for details
   // When exchanging LoRa packets with inverted IQ polarity, some packet losses may be observed for longer packets.
   // Workaround: Bit 2 at address 0x0736 must be set to:
-  // ��0�� when using inverted IQ polarity (see the SetPacketParam(...) command)
-  // ��1�� when using standard IQ polarity
+  // ¡È0¡É when using inverted IQ polarity (see the SetPacketParam(...) command)
+  // ¡È1¡É when using standard IQ polarity
 
   // read current IQ configuration
   uint8_t iqConfigCurrent = 0;
