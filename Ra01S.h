@@ -362,11 +362,21 @@
 #define SX126x_TXMODE_SYNC                            0x02
 #define SX126x_TXMODE_BACK2RX                         0x04
 
+#ifdef RA01S_USE_SPI_SEMAPHORES
+#ifndef RA01S_SEMAPHORE_HANDLE
+SemaphoreHandle_t Ra01S_Semaphore_SPI;
+#define RA01S_SEMAPHORE_HANDLE Ra01S_Semaphore_SPI
+#endif
+
+#ifndef RA01S_SEMAPHORE_TIMEOUT
+#define RA01S_SEMAPHORE_TIMEOUT 100
+#endif
+#endif
 
 // common low-level SPI interface
 class SX126x {
   public:
-    SX126x(int spiSelect, int reset, int busy, int txen = -1, int rxen = -1);
+    SX126x(int spiSelect, int reset, int busy, int txen = -1, int rxen = -1, bool eager = true);
 
     int16_t  begin(uint32_t frequencyInHz, int8_t txPowerInDbm, float tcxoVoltage = 0.0, bool useRegulatorLDO = false);
     void     LoRaConfig(uint8_t spreadingFactor, uint8_t bandwidth, uint8_t codingRate, uint16_t preambleLength, uint8_t payloadLen, bool crcOn, bool invertIrq);
