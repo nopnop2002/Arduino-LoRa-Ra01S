@@ -647,7 +647,7 @@ void SX126x::SetTx(uint32_t timeoutInMs)
   uint8_t buf[3];
   uint32_t tout = timeoutInMs;
   if (timeoutInMs != 0) {
-    // Timeout duration = Timeout * 15.625 ��s
+    // Timeout duration = Timeout * 15.625s
     uint32_t timeoutInUs = timeoutInMs * 1000;
     tout = (uint32_t)(timeoutInUs / 15.625);
   }
