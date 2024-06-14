@@ -2,8 +2,21 @@
 #include <SPI.h>
 #include "Ra01S.h"
 
+// using "extern" here to force the C linker to make the final connection that the compiler won't make due to stupid
+//"library" constraints.
 
-SX126x::SX126x(int spiSelect, int reset, int busy, int txen, int rxen)
+#ifdef RA01S_USE_SPI_SEMAPHORES
+#ifndef RA01S_SEMAPHORE_HANDLE
+SemaphoreHandle_t Ra01S_Semaphore_SPI;
+#define RA01S_SEMAPHORE_HANDLE Ra01S_Semaphore_SPI
+#endif
+
+#ifndef RA01S_SEMAPHORE_TIMEOUT
+#define RA01S_SEMAPHORE_TIMEOUT 100
+#endif
+#endif
+
+SX126x::SX126x(int spiSelect, int reset, int busy, int txen, int rxen, bool eager = true)
 {
   SX126x_SPI_SELECT = spiSelect;
   SX126x_RESET      = reset;
@@ -15,12 +28,18 @@ SX126x::SX126x(int spiSelect, int reset, int busy, int txen, int rxen)
   debugPrint        = false;
   
   pinMode(SX126x_SPI_SELECT, OUTPUT);
-  pinMode(SX126x_RESET, OUTPUT);
+  if (SX126x_RESET > -1) {
+      // In some cases, RESET may be handled by hardware.
+      pinMode(SX126x_RESET, OUTPUT);
+  }
   pinMode(SX126x_BUSY, INPUT);
   if (SX126x_TXEN != -1) pinMode(SX126x_TXEN, OUTPUT);
   if (SX126x_RXEN != -1) pinMode(SX126x_RXEN, OUTPUT);
 
-  SPI.begin();
+  // We may not immediately wish to initialize SPI here, especially if the bus is multiplexed.
+  if (eager) {
+      SPI.begin();
+  }
 }
 
 
@@ -44,9 +63,11 @@ int16_t SX126x::begin(uint32_t frequencyInHz, int8_t txPowerInDbm, float tcxoVol
     txPowerInDbm = 22;
   if ( txPowerInDbm < -3 )
     txPowerInDbm = -3;
-  
-  Reset();
-  Serial.println("Reset");
+
+  if (SX126x_RESET > -1) {
+      Reset();
+      Serial.println("Reset");
+  }
   
   uint8_t wk[2];
   ReadRegister(SX126X_REG_LORA_SYNC_WORD_MSB, wk, 2); // 0x0740
@@ -108,8 +129,8 @@ void SX126x::FixInvertedIQ(uint8_t iqConfig)
   // see SX1262/SX1268 datasheet, chapter 15 Known Limitations, section 15.4 for details
   // When exchanging LoRa packets with inverted IQ polarity, some packet losses may be observed for longer packets.
   // Workaround: Bit 2 at address 0x0736 must be set to:
-  // ¡È0¡É when using inverted IQ polarity (see the SetPacketParam(...) command)
-  // ¡È1¡É when using standard IQ polarity
+  // ï¿½ï¿½0ï¿½ï¿½ when using inverted IQ polarity (see the SetPacketParam(...) command)
+  // ï¿½ï¿½1ï¿½ï¿½ when using standard IQ polarity
 
   // read current IQ configuration
   uint8_t iqConfigCurrent = 0;
@@ -184,6 +205,24 @@ void SX126x::LoRaConfig(uint8_t spreadingFactor, uint8_t bandwidth, uint8_t codi
 void SX126x::DebugPrint(bool enable) 
 {
   debugPrint = enable;
+}
+
+bool SX126x::ReserveSPI()
+{
+#ifdef RA01S_USE_SPI_SEMAPHORES
+    return xSemaphoreTake(RA01S_SEMAPHORE_HANDLE, RA01S_SEMAPHORE_TIMEOUT) == pdTRUE;
+#else
+    return true;
+#endif
+}
+
+bool SX126x::FreeSPIReservation()
+{
+#ifdef RA01S_USE_SPI_SEMAPHORES
+    return xSemaphoreGive(RA01S_SEMAPHORE_HANDLE);
+#else
+    return true;
+#endif
 }
 
 
@@ -621,7 +660,7 @@ void SX126x::SetTx(uint32_t timeoutInMs)
   uint8_t buf[3];
   uint32_t tout = timeoutInMs;
   if (timeoutInMs != 0) {
-    // Timeout duration = Timeout * 15.625 ¦Ìs
+    // Timeout duration = Timeout * 15.625 ï¿½ï¿½s
     uint32_t timeoutInUs = timeoutInMs * 1000;
     tout = (uint32_t)(timeoutInUs / 15.625);
   }
@@ -710,6 +749,7 @@ uint8_t SX126x::ReadBuffer(uint8_t *rxData, uint8_t maxLen)
   // ensure BUSY is low (state meachine ready)
   WaitForIdle();
 
+  if (!ReserveSPI()) {return SX126X_STATUS_SEMAPHORE_TIMEOUT;}
   digitalWrite(SX126x_SPI_SELECT, LOW);
   SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
   SPI.transfer(SX126X_CMD_READ_BUFFER); // 0x1E
@@ -721,6 +761,7 @@ uint8_t SX126x::ReadBuffer(uint8_t *rxData, uint8_t maxLen)
   }
   SPI.endTransaction();
   digitalWrite(SX126x_SPI_SELECT, HIGH);
+  FreeSPIReservation();
 
   // wait for BUSY to go low
   WaitForIdle();
@@ -733,6 +774,7 @@ void SX126x::WriteBuffer(uint8_t *txData, uint8_t txDataLen)
   // ensure BUSY is low (state meachine ready)
   WaitForIdle();
 
+  if (!ReserveSPI()) {return;}
   digitalWrite(SX126x_SPI_SELECT, LOW);
   SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
   SPI.transfer(SX126X_CMD_WRITE_BUFFER); // 0x0E
@@ -743,6 +785,7 @@ void SX126x::WriteBuffer(uint8_t *txData, uint8_t txDataLen)
   }
   SPI.endTransaction();
   digitalWrite(SX126x_SPI_SELECT, HIGH);
+  FreeSPIReservation();
 
   // wait for BUSY to go low
   WaitForIdle();
@@ -758,6 +801,7 @@ void SX126x::WriteRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool w
     Serial.print("WriteRegister: REG=0x");
     Serial.print(reg, HEX);
   }
+  if (!ReserveSPI()) {return;}
   digitalWrite(SX126x_SPI_SELECT, LOW);
   SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
 
@@ -782,6 +826,7 @@ void SX126x::WriteRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool w
   // stop transfer
   SPI.endTransaction();
   digitalWrite(SX126x_SPI_SELECT, HIGH);
+  FreeSPIReservation();
 
   // wait for BUSY to go low
   if(waitForBusy) {
@@ -799,6 +844,7 @@ void SX126x::ReadRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool wa
     Serial.print("ReadRegister:  REG=0x");
     Serial.print(reg, HEX);
   }
+  if (!ReserveSPI()) {return;}
   digitalWrite(SX126x_SPI_SELECT, LOW);
   SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
 
@@ -824,6 +870,7 @@ void SX126x::ReadRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool wa
   // stop transfer
   SPI.endTransaction();
   digitalWrite(SX126x_SPI_SELECT, HIGH);
+  FreeSPIReservation();
 
   // wait for BUSY to go low
   if(waitForBusy) {
@@ -850,6 +897,7 @@ uint8_t SX126x::WriteCommand2(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool
   WaitForIdle();
 
   // start transfer
+  if (!ReserveSPI()) {return SX126X_STATUS_SEMAPHORE_TIMEOUT;}
   digitalWrite(SX126x_SPI_SELECT, LOW);
   SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
 
@@ -891,6 +939,7 @@ uint8_t SX126x::WriteCommand2(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool
   // stop transfer
   SPI.endTransaction();
   digitalWrite(SX126x_SPI_SELECT, HIGH);
+  FreeSPIReservation();
 
   // wait for BUSY to go low
   if(waitForBusy) {
@@ -911,6 +960,7 @@ void SX126x::ReadCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool wait
   WaitForIdle();
 
   // start transfer
+  if (!ReserveSPI()) {return;}
   digitalWrite(SX126x_SPI_SELECT, LOW);
   SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
 
@@ -939,6 +989,7 @@ void SX126x::ReadCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool wait
   // stop transfer
   SPI.endTransaction();
   digitalWrite(SX126x_SPI_SELECT, HIGH);
+  FreeSPIReservation();
 
   // wait for BUSY to go low
   if(waitForBusy) {
