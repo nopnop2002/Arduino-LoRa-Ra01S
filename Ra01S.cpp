@@ -2,19 +2,6 @@
 #include <SPI.h>
 #include "Ra01S.h"
 
-// using "extern" here to force the C linker to make the final connection that the compiler won't make due to stupid
-//"library" constraints.
-
-#ifdef RA01S_USE_SPI_SEMAPHORES
-#ifndef RA01S_SEMAPHORE_HANDLE
-SemaphoreHandle_t Ra01S_Semaphore_SPI;
-#define RA01S_SEMAPHORE_HANDLE Ra01S_Semaphore_SPI
-#endif
-
-#ifndef RA01S_SEMAPHORE_TIMEOUT
-#define RA01S_SEMAPHORE_TIMEOUT 100
-#endif
-#endif
 
 SX126x::SX126x(int spiSelect, int reset, int busy, int txen, int rxen, bool eager)
 {

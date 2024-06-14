@@ -362,6 +362,16 @@
 #define SX126x_TXMODE_SYNC                            0x02
 #define SX126x_TXMODE_BACK2RX                         0x04
 
+#ifdef RA01S_USE_SPI_SEMAPHORES
+#ifndef RA01S_SEMAPHORE_HANDLE
+SemaphoreHandle_t Ra01S_Semaphore_SPI;
+#define RA01S_SEMAPHORE_HANDLE Ra01S_Semaphore_SPI
+#endif
+
+#ifndef RA01S_SEMAPHORE_TIMEOUT
+#define RA01S_SEMAPHORE_TIMEOUT 100
+#endif
+#endif
 
 // common low-level SPI interface
 class SX126x {
