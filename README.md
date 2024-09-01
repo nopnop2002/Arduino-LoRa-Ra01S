@@ -200,7 +200,7 @@ RadioLib require DIO1 connected in order to works.
 
 
 # SX1262 and SX1278, SX1276 Comparison
-[This](https://www.ebyte.com/en/new-view-info.aspx?id=303) will be helpful.   
+[This](https://www.cdebyte.com/news/580) will be helpful.   
 
 
 
