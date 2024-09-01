@@ -946,6 +946,6 @@ void SX126x::ReadCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool wait
 
   // wait for BUSY to go low
   if(waitForBusy) {
-    WaitForIdle(BUSY_WAIT, "end ReadCommand", true);
+    WaitForIdle(BUSY_WAIT, "end ReadCommand", false);
   }
 }
