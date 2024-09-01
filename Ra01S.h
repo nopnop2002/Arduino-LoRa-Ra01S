@@ -25,6 +25,7 @@
 #define XTAL_FREQ                       ( double )32000000
 #define FREQ_DIV                        ( double )pow( 2.0, 25.0 )
 #define FREQ_STEP                       ( double )( XTAL_FREQ / FREQ_DIV )
+#define BUSY_WAIT                       5000
 
 // SX126X Model
 #define SX1261_TRANCEIVER                             0x01
@@ -417,7 +418,7 @@ class SX126x {
     uint8_t  GetRssiInst();
     void     GetRxBufferStatus(uint8_t *payloadLength, uint8_t *rxStartBufferPointer);
     void     Wakeup(void);
-    void     WaitForIdle(unsigned long timeout = 5000);
+    void     WaitForIdle(unsigned long timeout, char *text, bool stop);
     uint8_t  ReadBuffer(uint8_t *rxData, uint8_t maxLen);
     void     WriteBuffer(uint8_t *txData, uint8_t txDataLen);
     void     WriteRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool waitForBusy = true);

@@ -308,7 +308,7 @@ void SX126x::Reset(void)
   digitalWrite(SX126x_RESET,1);
   delay(10);
   // ensure BUSY is low (state meachine ready)
-  WaitForIdle();
+  WaitForIdle(BUSY_WAIT, "Reset", true);
 }
 
 
@@ -572,8 +572,8 @@ void SX126x::ClearIrqStatus(uint16_t irq)
 void SX126x::SetRx(uint32_t timeout)
 {
   if (debugPrint) {
-    Serial.print("----- SetRx timeout=");
-    Serial.println(timeout);
+    Serial.print("----- SetRx timeout=0x");
+    Serial.println(timeout, HEX);
   }
   SetStandby(SX126X_STANDBY_RC);
   SetRxEnable();
@@ -680,16 +680,20 @@ void SX126x::GetRxBufferStatus(uint8_t *payloadLength, uint8_t *rxStartBufferPoi
 }
 
 
-void SX126x::WaitForIdle(unsigned long timeout)
+void SX126x::WaitForIdle(unsigned long timeout, char *text, bool stop)
 {
   unsigned long start = millis();
   delayMicroseconds(1);
   while(digitalRead(SX126x_BUSY)) {
     delayMicroseconds(1);
     if(millis() - start >= timeout) {
-      Serial.print("WaitForIdle Timeout timeout=");
+      Serial.print("WaitForIdle [");
+      Serial.print(text);
+      Serial.print("] Timeout timeout=");
       Serial.println(timeout);
-      while(1) {delay(1);}
+      if (stop) {
+        while(1) {delay(1);}
+      }
     }
   }
 }
@@ -708,7 +712,7 @@ uint8_t SX126x::ReadBuffer(uint8_t *rxData, uint8_t maxLen)
   }
 
   // ensure BUSY is low (state meachine ready)
-  WaitForIdle();
+  WaitForIdle(BUSY_WAIT, "start ReadBuffer", true);
 
   digitalWrite(SX126x_SPI_SELECT, LOW);
   SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
@@ -723,7 +727,7 @@ uint8_t SX126x::ReadBuffer(uint8_t *rxData, uint8_t maxLen)
   digitalWrite(SX126x_SPI_SELECT, HIGH);
 
   // wait for BUSY to go low
-  WaitForIdle();
+  WaitForIdle(BUSY_WAIT, "end ReadBuffer", false);
 
   return payloadLength;
 }
@@ -731,7 +735,7 @@ uint8_t SX126x::ReadBuffer(uint8_t *rxData, uint8_t maxLen)
 void SX126x::WriteBuffer(uint8_t *txData, uint8_t txDataLen)
 {
   // ensure BUSY is low (state meachine ready)
-  WaitForIdle();
+  WaitForIdle(BUSY_WAIT, "start WriteBuffer", true);
 
   digitalWrite(SX126x_SPI_SELECT, LOW);
   SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
@@ -745,13 +749,13 @@ void SX126x::WriteBuffer(uint8_t *txData, uint8_t txDataLen)
   digitalWrite(SX126x_SPI_SELECT, HIGH);
 
   // wait for BUSY to go low
-  WaitForIdle();
+  WaitForIdle(BUSY_WAIT, "end WriteBuffer", false);
 }
 
 
 void SX126x::WriteRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool waitForBusy) {
   // ensure BUSY is low (state meachine ready)
-  WaitForIdle();
+  WaitForIdle(BUSY_WAIT, "start WriteRegister", true);
 
   // start transfer
   if(debugPrint) {
@@ -785,14 +789,14 @@ void SX126x::WriteRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool w
 
   // wait for BUSY to go low
   if(waitForBusy) {
-    WaitForIdle();
+    WaitForIdle(BUSY_WAIT, "end WriteRegister", false);
   }
 }
 
 
 void SX126x::ReadRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool waitForBusy) {
   // ensure BUSY is low (state meachine ready)
-  WaitForIdle();
+  WaitForIdle(BUSY_WAIT, "start ReadRegister", true);
 
   // start transfer
   if(debugPrint) {
@@ -827,7 +831,7 @@ void SX126x::ReadRegister(uint16_t reg, uint8_t* data, uint8_t numBytes, bool wa
 
   // wait for BUSY to go low
   if(waitForBusy) {
-    WaitForIdle();
+    WaitForIdle(BUSY_WAIT, "end ReadRegister", false);
   }
 }
 
@@ -847,7 +851,7 @@ void SX126x::WriteCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool wai
 
 uint8_t SX126x::WriteCommand2(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy) {
   // ensure BUSY is low (state meachine ready)
-  WaitForIdle();
+  WaitForIdle(BUSY_WAIT, "start WriteCommand2", true);
 
   // start transfer
   digitalWrite(SX126x_SPI_SELECT, LOW);
@@ -894,7 +898,7 @@ uint8_t SX126x::WriteCommand2(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool
 
   // wait for BUSY to go low
   if(waitForBusy) {
-    WaitForIdle();
+    WaitForIdle(BUSY_WAIT, "end WriteCommand2", false);
   }
 
   if (status != 0) {
@@ -908,7 +912,7 @@ uint8_t SX126x::WriteCommand2(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool
 
 void SX126x::ReadCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy) {
   // ensure BUSY is low (state meachine ready)
-  WaitForIdle();
+  WaitForIdle(BUSY_WAIT, "start ReadCommand", true);
 
   // start transfer
   digitalWrite(SX126x_SPI_SELECT, LOW);
@@ -942,6 +946,6 @@ void SX126x::ReadCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool wait
 
   // wait for BUSY to go low
   if(waitForBusy) {
-    WaitForIdle();
+    WaitForIdle(BUSY_WAIT, "end ReadCommand", true);
   }
 }
