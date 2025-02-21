@@ -314,7 +314,8 @@ void SX126x::Reset(void)
 
 void SX126x::Wakeup(void)
 {
-  GetStatus();
+  //GetStatus();
+  digitalWrite(SX126x_SPI_SELECT, LOW); delay(1); digitalWrite(SX126x_SPI_SELECT, HIGH);
 }
 
 
