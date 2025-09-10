@@ -198,17 +198,33 @@ RadioLib require DIO1 connected in order to works.
   int state = radio.begin(866.0, 125.0, 7, 5, RADIOLIB_SX126X_SYNC_WORD_PRIVATE, 10, 8, 0.0, false);
 ```
 
-
 # Limitation
 - The SX126x chip implements FSK, but FSK is not supported in this library.   
 - Interrupts is not supported in this library.   
 
+# Communication with SX127X
+LoRa's packet format is strictly specified.   
+Therefore, if the following three parameters are the same, they can communicate with each other.   
+- Signal Bandwidth (= BW)   
+- Error Cording Rate (= CR)   
+- Spreading Factor (= SF)   
 
+# About communication speed and maximum reception sensitivity   
+In LoRa modulation mode, the communication speed (bps) and maximum reception sensitivity (RSSI) are determined by a combination of spreading factor (SF), bandwidth (BW), and coding rate (CDR).   
+- SF   
+Increasing SF increases the spreading factor and improves noise resistance.   
+This improves reception sensitivity and extends communication distance, but communication speed decreases.   
+- BW   
+Bandwidth sets the width of the communication band. Setting a larger bandwidth will improve communication speed.   
+However, the radio reception sensitivity (RSSI) will decrease.   
+- CDR   
+CDR (CodingRate) sets the level of error correction rate.   
+The larger the number, the better the correction rate, but the amount of information per packet increases.   
+(No effect on maximum reception sensitivity)   
+You can set whether to use Optimaise for each CDR, and enabling it will improve the correction rate, but will reduce communication speed.   
 
 # SX1262 and SX1278, SX1276 Comparison
 [This](https://www.cdebyte.com/news/580) will be helpful.   
-
-
 
 # Build ESP8266 with PlatformIO
 ```
