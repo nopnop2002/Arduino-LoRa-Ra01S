@@ -7,20 +7,27 @@ This is an Arduino library for LoRa Communication using the radio transceiver ch
 Ai-Thinker offers several LoRa modules.   
 You can get these on AliExpress and eBay.   
 
-|Model|Type|Interface/Core|Chip|Frequency|Foot-Pattern|IPEX-Antena|LoRa-WAN|
+|Model|Type|Interface/Core|Chip|Frequency|Foot-Pattern|High-Power|LoRa-WAN|
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |Ra-01|Tranceiver|SPI|SX1278|410-525Mhz|SMD16|No|No|
-|Ra-02|Tranceiver|SPI|SX1278|410-525Mhz|SMD16|Yes|No|
+|Ra-02|Tranceiver|SPI|SX1278|410-525Mhz|SMD16|No|No|
 |Ra-01H|Tranceiver|SPI|SX1276|803-930Mhz|SMD16|No|No|
 |Ra-01S|Tranceiver|SPI|**SX1268**|410-525Mhz|SMD16|No|No|
-|Ra-01SH|Tranceiver|SPI|**SX1262**|803-930Mhz|SMD16|Yes|No|
-|Ra-01SC|Tranceiver|SPI|**LLCC68**|410-525Mhz|SMD16|Yes|No|
-|Ra-06|MCU|ARM Cortex M0+|SX1278|410-525Mhz|SMD20|Yes|No|
+|Ra-01S-P|Tranceiver|SPI|**SX1268**|410-525Mhz|SMD16|Yes|No|
+|Ra-01SH|Tranceiver|SPI|**SX1262**|803-930Mhz|SMD16|No|No|
+|Ra-01SH-P|Tranceiver|SPI|**SX1262**|803-930Mhz|SMD16|Yes|No|
+|Ra-01SC|Tranceiver|SPI|**LLCC68**|410-525Mhz|SMD16|No|No|
+|Ra-01SC-P|Tranceiver|SPI|**LLCC68**|410-525Mhz|SMD16|Yes|No|
+|Ra-01SCH|Tranceiver|SPI|**LLCC68**|803-930Mhz|SMD16|No|No|
+|Ra-01SCH-P|Tranceiver|SPI|**LLCC68**|803-930Mhz|SMD16|Yes|No|
+|Ra-03SCH|Tranceiver|SPI|**LLCC68**|803-930Mhz|SMD14|No|No|
+|Ra-06|MCU|ARM Cortex M0+|SX1278|410-525Mhz|SMD20|No|No|
 |Ra-07|MCU|ARM Cortex M0+|ASR6501|410-525Mhz|SMD18|No|Yes|
 |Ra-07H|MCU|ARM Cortex M0+|ASR6501|803-930Mhz|SMD18|No|Yes|
 |Ra-08|MCU|ARM Cortex M4|ASR6601|410-525Mhz|SMD18|No|Yes|
 |Ra-08H|MCU|ARM Cortex M4|ASR6601|803-930Mhz|SMD18|No|Yes|
 
+Datasheets for each module can be found [here](https://docs.ai-thinker.com/en/lora/).   
 
 # Option with SX1262/1268
 LoRa modules with SX1262/1268 have several options.   
@@ -49,31 +56,29 @@ DIO2 = 0, CTRL = 1, RFC to R21  Rx Mode.
 
 You need to look at the schematic to set these options properly, but it's very esoteric.   
 The default settings for this library are for Ra-01S / Ra-01SH.    
-__When using other than Ra-01S / Ra-01SH, you need to set them appropriately.__   
+__When using other than Ra-01S/01SH, you need to set them appropriately.__   
 
 I created this library based on [this](https://github.com/tinytronix/SX126x).   
-With this library, Ra-01S / Ra-01SH doesn't work.   
+With this library, Ra-01S/01SH doesn't work.   
 
-# About Ra-01SC   
-Ra-01SC uses LLCC68.   
-Ra-01SC is compatible with Ra-01S.   
-However, there are the following restrictions:   
-- BW is either 125KHz, 250KHz or 500Khz.   
-- When BW is 125KHz, SF is in the range of 5-9.   
-- When BW is 250KHz, SF is in the range of 5-10.   
-- When BW is 500KHz, SF is in the range of 5-11.   
+# About LLCC68   
+LLCC68 is compatible with SX1262/SX1268.   
+Different between LLCC68 and SX1262/SX1268:   
+(1) SX1262/SX1268 support spreading factor SF5,SF6,SF7,SF8,SF9,SF10,SF11,SF12.   
+SX1262/SX1268 can set spreading factor and receiving bandwidth:   
+LoRa@ Rx/Tx, BW = 7.8 - 500 kHz   
+SF5 TO SF12,BR=0.018-62.5 Kb/S   
+
+(2) LLCC68 support spreading factor SF5,SF6,SF7,SF8,SF9,SF10,SF11.   
+LLCC68 can set spreading factor and receiving bandwidth:   
+LoRa@ Rx/Tx, BW = 125 - 250 - 500 kHz   
+LoRa@ SF=5-6-7-8-9 for BW=125kHz   
+LoRa@ SF=5-6-7-8-9-10 for BW =250 kHz   
+LoRa@ SF=5-6-7-8-9-10-11 for BW=500 kHz   
+
+__When using LLCC68 other than Ra-01SC/01SCH, it is necessary to set the options appropriately based on the datasheet.__   
 
 ![ra01sc](https://user-images.githubusercontent.com/6020549/169180199-12a88938-1d6d-43c7-836d-f3c2081ac10d.JPG)
-
-# Datasheet   
-- RA-01S   
-https://docs.ai-thinker.com/_media/lora/docs/ra-01s_specification.pdf
-
-- RA-01SH   
-https://docs.ai-thinker.com/_media/lora/docs/ra-01sh_specification.pdf
-
-- RA-01SC(Chinese)   
-https://img.iceasy.com/product/product/files/202108/8a8a8a1a7aec7b55017b2ef70a370953.pdf
 
 # Foot pattern
 RA-0x(SMD16) has the same foot pattern as ESP12.   
