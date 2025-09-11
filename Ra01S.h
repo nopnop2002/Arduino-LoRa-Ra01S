@@ -377,6 +377,7 @@ class SX126x {
     void     SetTxPower(int8_t txPowerInDbm);
     uint32_t GetRandomNumber(void);
     void     DebugPrint(bool enable);
+    void     SetDioIrqParams(uint16_t irqMask, uint16_t dio1Mask, uint16_t dio2Mask, uint16_t dio3Mask);
 
 
   private:    
@@ -403,7 +404,6 @@ class SX126x {
     void     SetPowerConfig(int8_t power, uint8_t rampTime);
     void     SetOvercurrentProtection(float currentLimit);
     void     SetPaConfig(uint8_t paDutyCycle, uint8_t hpMax, uint8_t deviceSel, uint8_t paLut);
-    void     SetDioIrqParams(uint16_t irqMask, uint16_t dio1Mask, uint16_t dio2Mask, uint16_t dio3Mask);
     void     SetStopRxTimerOnPreambleDetect(bool enable);
     void     SetLoRaSymbNumTimeout(uint8_t SymbNum);
     void     SetPacketType(uint8_t packetType);
