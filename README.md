@@ -199,8 +199,7 @@ RadioLib require DIO1 connected in order to works.
 ```
 
 # Limitation
-- The SX126x chip implements FSK, but FSK is not supported in this library.   
-- Interrupts is not supported in this library.   
+The SX126x chip supports FSK/GFSK/MSK/GMSK/OOK modulation methods , but these are not supported by this library.   
 
 # Communication with SX127X
 LoRa's packet format is strictly specified.   
