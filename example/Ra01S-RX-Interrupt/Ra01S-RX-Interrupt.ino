@@ -36,7 +36,7 @@
  * NSS     5/5
  * RST     6/6
  * BUSY    7/7
- * DIO1    2/2
+ * DIO1    3/3
  */
 
 SX126x  lora(5,               //Port-Pin Output: SPI select
